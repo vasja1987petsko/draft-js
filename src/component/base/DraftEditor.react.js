@@ -355,6 +355,8 @@ class DraftEditor extends React.Component<DraftEditorProps, State> {
       key: 'contents' + this.state.contentsKey,
       textDirectionality,
     };
+    console.log('editorContentsProps', editorContentsProps);
+    console.log('this.props.spellChecks', this.props.spellCheck);
 
     return (
       <div className={rootClass}>
