@@ -81,6 +81,7 @@ const DraftModifier = {
     inlineStyle?: DraftInlineStyle,
     entityKey?: ?string,
   ): ContentState {
+    console.log('DraftModifier insertText', DraftModifier);
     invariant(
       targetRange.isCollapsed(),
       'Target range must be collapsed for `insertText`.',

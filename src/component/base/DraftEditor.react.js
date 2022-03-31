@@ -17,6 +17,7 @@ import type {DraftEditorModes} from 'DraftEditorModes';
 import type {DraftEditorDefaultProps, DraftEditorProps} from 'DraftEditorProps';
 import type {DraftScrollPosition} from 'DraftScrollPosition';
 
+const convertFromDraftStateToRaw = require('convertFromDraftStateToRaw');
 const DefaultDraftBlockRenderMap = require('DefaultDraftBlockRenderMap');
 const DefaultDraftInlineStyle = require('DefaultDraftInlineStyle');
 const DraftEditorCompositionHandler = require('DraftEditorCompositionHandler');
@@ -355,8 +356,13 @@ class DraftEditor extends React.Component<DraftEditorProps, State> {
       key: 'contents' + this.state.contentsKey,
       textDirectionality,
     };
-    console.log('editorContentsProps', editorContentsProps);
+    console.info('DraftEditor.reactjs render');
+    // console.log('editorState', editorState);
+    console.log('editorState.getCurrentContent()', convertFromDraftStateToRaw(editorState.getCurrentContent()));
+    // console.log('editorContentsProps', editorContentsProps);
+    console.log('this.props', this.props);
     console.log('this.props.spellChecks', this.props.spellCheck);
+    debugger;
 
     return (
       <div className={rootClass}>
@@ -522,9 +528,10 @@ class DraftEditor extends React.Component<DraftEditorProps, State> {
    * the active mode.
    */
   setMode: DraftEditorModes => void = (mode: DraftEditorModes): void => {
+    console.log('setMode', mode, this.props);
     const {onPaste, onCut, onCopy} = this.props;
     const editHandler = {...handlerMap.edit};
-
+    console.log('setMode handlerMap',handlerMap, editHandler);
     if (onPaste) {
       editHandler.onPaste = onPaste;
     }
@@ -593,6 +600,8 @@ class DraftEditor extends React.Component<DraftEditorProps, State> {
    * function.
    */
   update: EditorState => void = (editorState: EditorState): void => {
+    console.log('DraftEditorupdate');
+    console.log('editorState.getCurrentContent()', convertFromDraftStateToRaw(editorState.getCurrentContent()));
     this._latestEditorState = editorState;
     this.props.onChange(editorState);
   };

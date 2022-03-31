@@ -31,7 +31,7 @@ function insertTextIntoContentState(
     selectionState.isCollapsed(),
     '`insertText` should only be called with a collapsed range.',
   );
-
+  console.log('insertTextIntoContentState',insertTextIntoContentState);
   const len = text.length;
   if (!len) {
     return contentState;

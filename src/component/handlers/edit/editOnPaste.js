@@ -32,6 +32,7 @@ const splitTextIntoTextBlocks = require('splitTextIntoTextBlocks');
  * Paste content.
  */
 function editOnPaste(editor: DraftEditor, e: SyntheticClipboardEvent<>): void {
+  console.log('editOnPaste', editOnPaste, e);
   e.preventDefault();
   const data = new DataTransfer(e.clipboardData);
 
@@ -93,6 +94,7 @@ function editOnPaste(editor: DraftEditor, e: SyntheticClipboardEvent<>): void {
   let textBlocks: Array<string> = [];
   const text = data.getText();
   const html = data.getHTML();
+  console.log('text', text, html);
   const editorState = editor._latestEditorState;
 
   if (

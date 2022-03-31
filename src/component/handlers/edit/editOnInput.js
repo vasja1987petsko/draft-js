@@ -48,6 +48,8 @@ function onInputType(inputType: string, editorState: EditorState): EditorState {
  * due to a spellcheck change, and we can incorporate it into our model.
  */
 function editOnInput(editor: DraftEditor, e: SyntheticInputEvent<>): void {
+  console.log( 'editOnInput',  editOnInput);
+  debugger;
   if (editor._pendingStateFromBeforeInput !== undefined) {
     editor.update(editor._pendingStateFromBeforeInput);
     editor._pendingStateFromBeforeInput = undefined;
@@ -92,12 +94,12 @@ function editOnInput(editor: DraftEditor, e: SyntheticInputEvent<>): void {
       }
     }
   }
-
+  debugger;
   let domText = anchorNode.textContent;
   const editorState = editor._latestEditorState;
   const offsetKey = nullthrows(findAncestorOffsetKey(anchorNode));
   const {blockKey, decoratorKey, leafKey} = DraftOffsetKey.decode(offsetKey);
-
+  debugger;
   const {start, end} = editorState
     .getBlockTree(blockKey)
     .getIn([decoratorKey, 'leaves', leafKey]);
@@ -156,7 +158,8 @@ function editOnInput(editor: DraftEditor, e: SyntheticInputEvent<>): void {
   // force using our internal undo method instead of falling through to the
   // native browser undo.
   const changeType = preserveEntity ? 'spellcheck-change' : 'apply-entity';
-
+  console.log('changeType',changeType);
+  debugger;
   const newContent = DraftModifier.replaceText(
     content,
     targetRange,
