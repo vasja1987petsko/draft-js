@@ -48,7 +48,7 @@ function onInputType(inputType: string, editorState: EditorState): EditorState {
  * due to a spellcheck change, and we can incorporate it into our model.
  */
 function editOnInput(editor: DraftEditor, e: SyntheticInputEvent<>): void {
-  console.log( 'editOnInput',  editOnInput);
+  console.log( 'editOnInput',  editOnInput, e);
   debugger;
   if (editor._pendingStateFromBeforeInput !== undefined) {
     editor.update(editor._pendingStateFromBeforeInput);

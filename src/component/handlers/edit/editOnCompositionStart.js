@@ -23,6 +23,7 @@ function editOnCompositionStart(
   editor: DraftEditor,
   e: SyntheticEvent<>,
 ): void {
+  console.log(editor, e); debugger;
   editor.setMode('composite');
   editor.update(
     EditorState.set(editor._latestEditorState, {inCompositionMode: true}),
