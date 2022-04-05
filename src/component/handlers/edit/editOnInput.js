@@ -108,10 +108,16 @@ function editOnInput(editor: DraftEditor, e: SyntheticInputEvent<>): void {
   const {start, end} = editorState
     .getBlockTree(blockKey)
     .getIn([decoratorKey, 'leaves', leafKey]);
+  console.log('decoratorKey', decoratorKey);
+  console.log('leafKey', leafKey);
+  console.log('editorState.getBlockTree(blockKey)',editorState.getBlockTree(blockKey));
+  console.log('editorState.getBlockTree(blockKey).getIn([decoratorKey, \'leaves\', leafKey]',editorState.getBlockTree(blockKey).getIn([decoratorKey, 'leaves', leafKey]));
+  debugger;
 
 
   const content = editorState.getCurrentContent();
   const block = content.getBlockForKey(blockKey);
+  console.log('block.getText()',  block.getText());
   const modelText = block.getText().slice(start, end);
   debugger;
   // Special-case soft newlines here. If the DOM text ends in a soft newline,
