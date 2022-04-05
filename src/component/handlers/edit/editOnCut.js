@@ -30,6 +30,7 @@ const getScrollPosition = require('getScrollPosition');
  * styles and entities, for use as an internal paste.
  */
 function editOnCut(editor: DraftEditor, e: SyntheticClipboardEvent<>): void {
+  console.log( 'editOnCut',  editOnCut, e, editor);
   const editorState = editor._latestEditorState;
   const selection = editorState.getSelection();
   const element = e.target;

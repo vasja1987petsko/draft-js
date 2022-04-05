@@ -25,6 +25,7 @@ function keyCommandUndo(
   // the unwanted change, which should soon lead it to learn not to suggest
   // the correction again.
   if (editorState.getLastChangeType() === 'spellcheck-change') {
+    console.log('spellcheck-change');
     const nativelyRenderedContent = undoneState.getCurrentContent();
     updateFn(EditorState.set(undoneState, {nativelyRenderedContent}));
     return;

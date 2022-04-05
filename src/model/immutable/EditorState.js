@@ -99,6 +99,7 @@ class EditorState {
   }
 
   static set(editorState: EditorState, put: Object): EditorState {
+    console.log('set editorState',editorState );
     const map = editorState.getImmutable().withMutations(state => {
       const existingDecorator = state.get('decorator');
       let decorator = existingDecorator;
@@ -193,6 +194,7 @@ class EditorState {
   }
 
   getLastChangeType(): ?EditorChangeType {
+    console.log('EditorChangeType', this.getImmutable().get('lastChangeType'));
     return this.getImmutable().get('lastChangeType');
   }
 
@@ -342,6 +344,8 @@ class EditorState {
     changeType: EditorChangeType,
     forceSelection: boolean = true,
   ): EditorState {
+
+   console.log('push editorState',editorState );
     if (editorState.getCurrentContent() === contentState) {
       return editorState;
     }
@@ -378,6 +382,7 @@ class EditorState {
       changeType === 'backspace-character' ||
       changeType === 'delete-character'
     ) {
+      console.log('push editorState',editorState );
       // Preserve the previous selection.
       newContent = newContent.set(
         'selectionBefore',

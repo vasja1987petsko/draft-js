@@ -18,6 +18,7 @@ const ReactDOM = require('ReactDOM');
 const invariant = require('invariant');
 
 function getContentEditableContainer(editor: DraftEditor): HTMLElement {
+  console.log('getContentEditableContaine', getContentEditableContainer);
   const editorNode = ReactDOM.findDOMNode(editor.editorContainer);
   invariant(editorNode, 'Missing editorNode');
   invariant(

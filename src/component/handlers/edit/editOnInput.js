@@ -27,6 +27,8 @@ const isGecko = UserAgent.isEngine('Gecko');
 
 const DOUBLE_NEWLINE = '\n\n';
 
+const convertFromDraftStateToRaw = require('convertFromDraftStateToRaw');
+
 function onInputType(inputType: string, editorState: EditorState): EditorState {
   switch (inputType) {
     case 'deleteContentBackward':
@@ -48,11 +50,14 @@ function onInputType(inputType: string, editorState: EditorState): EditorState {
  * due to a spellcheck change, and we can incorporate it into our model.
  */
 function editOnInput(editor: DraftEditor, e: SyntheticInputEvent<>): void {
-  console.log( 'editOnInput',  editOnInput, e);
+  console.log( 'editOnInput',  editOnInput, e, editor);
+  console.log( 'convertFromDraftStateToRaw', convertFromDraftStateToRaw);
   debugger;
   if (editor._pendingStateFromBeforeInput !== undefined) {
+    debugger;
     editor.update(editor._pendingStateFromBeforeInput);
     editor._pendingStateFromBeforeInput = undefined;
+    debugger;
   }
 
   const domSelection = global.getSelection();
@@ -62,7 +67,7 @@ function editOnInput(editor: DraftEditor, e: SyntheticInputEvent<>): void {
   const isNotTextOrElementNode =
     anchorNode.nodeType !== Node.TEXT_NODE &&
     anchorNode.nodeType !== Node.ELEMENT_NODE;
-
+  debugger;
   if (gkx('draft_killswitch_allow_nontextnodes')) {
     if (isNotTextNode) {
       return;
@@ -104,10 +109,11 @@ function editOnInput(editor: DraftEditor, e: SyntheticInputEvent<>): void {
     .getBlockTree(blockKey)
     .getIn([decoratorKey, 'leaves', leafKey]);
 
+
   const content = editorState.getCurrentContent();
   const block = content.getBlockForKey(blockKey);
   const modelText = block.getText().slice(start, end);
-
+  debugger;
   // Special-case soft newlines here. If the DOM text ends in a soft newline,
   // we will have manually inserted an extra soft newline in DraftEditorLeaf.
   // We want to remove this extra newline for the purpose of our comparison
@@ -138,7 +144,7 @@ function editOnInput(editor: DraftEditor, e: SyntheticInputEvent<>): void {
     }
     return;
   }
-
+  console.log('convertFromDraftStateToRaw(editorState.getCurrentContent())', convertFromDraftStateToRaw(editorState.getCurrentContent()));
   const selection = editorState.getSelection();
 
   // We'll replace the entire leaf with the text content of the target.
@@ -167,7 +173,8 @@ function editOnInput(editor: DraftEditor, e: SyntheticInputEvent<>): void {
     block.getInlineStyleAt(start),
     preserveEntity ? block.getEntityAt(start) : null,
   );
-
+  console.log('convertFromDraftStateToRaw(editorState.getCurrentContent())', convertFromDraftStateToRaw(editorState.getCurrentContent()));
+  console.log('convertFromDraftStateToRaw(newContent))', convertFromDraftStateToRaw(newContent));
   let anchorOffset, focusOffset, startOffset, endOffset;
 
   if (isGecko) {
@@ -196,11 +203,16 @@ function editOnInput(editor: DraftEditor, e: SyntheticInputEvent<>): void {
   // Segmented entities are completely or partially removed when their
   // text content changes. For this case we do not want any text to be selected
   // after the change, so we are not merging the selection.
+  console.log('convertFromDraftStateToRaw(editorState.getCurrentContent())', convertFromDraftStateToRaw(editorState.getCurrentContent()));
+  console.log('convertFromDraftStateToRaw(newContent))', convertFromDraftStateToRaw(newContent));
   const contentWithAdjustedDOMSelection = newContent.merge({
     selectionBefore: content.getSelectionAfter(),
     selectionAfter: selection.merge({anchorOffset, focusOffset}),
   });
-
+  console.log('spellcheck-change', changeType);
+  console.log('convertFromDraftStateToRaw(editorState.getCurrentContent())', convertFromDraftStateToRaw(editorState.getCurrentContent()));
+  console.log('convertFromDraftStateToRaw(newContent))', convertFromDraftStateToRaw(newContent));
+  console.log('convertFromDraftStateToRaw(contentWithAdjustedDOMSelection))', convertFromDraftStateToRaw(contentWithAdjustedDOMSelection));
   editor.update(
     EditorState.push(editorState, contentWithAdjustedDOMSelection, changeType),
   );
